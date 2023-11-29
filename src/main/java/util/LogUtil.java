@@ -11,7 +11,7 @@ public class LogUtil {
     private  final Logger LOGGER = LoggerFactory.getLogger(LogUtil.class);
     private static String classe;
     public LogUtil(Class<?> clazz){
-        this.classe = clazz.getName();
+        classe = clazz.getName();
     }
     public  void getLoggerInfo(String informacao){
         LocalDateTime horarioAgora = LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).minusHours(1);

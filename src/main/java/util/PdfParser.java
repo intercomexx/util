@@ -33,6 +33,7 @@ public class PdfParser {
 		PDDocument pdfDocument = null;
 		try{
 			PDFParser parser = new PDFParser(is);
+
 			parser.parse();
 			pdfDocument = parser.getPDDocument();
 			PDFTextStripper stripper = new PDFTextStripper();
@@ -42,6 +43,7 @@ public class PdfParser {
 			return "ERRO: Não é possível abrir a stream" + e;
 		}
 		catch (Throwable e){
+            e.printStackTrace();
 			// Fazemos um catch, uma vez que precisamos de fechar o recurso
 			return "ERRO: Um erro ocorreu enquanto tentava obter o conteúdo do PDF" + e;
 		}
@@ -56,4 +58,6 @@ public class PdfParser {
 			}
 		}
 	}
+
+
 }
