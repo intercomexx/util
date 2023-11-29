@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DriverUtils {
     private static WebDriver driver;
-    private static final Logger logger = LoggerFactory.getLogger(DriverUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DriverUtils.class);
     private static LogUtil logUtil = new LogUtil(DriverUtils.class);
 
     private DriverUtils(){
@@ -81,14 +81,14 @@ public class DriverUtils {
             if(tentativas==null){
                 tentativas = 60;
             }
-            logUtil.getLoggerInfo("## Buscando elementos: ");
-//            logUtil.getLoggerInfo("## Buscando elementos: ");
+            LOGGER.info("## Buscando elementos: ");
+//            LOGGER.info("## Buscando elementos: ");
             if(by4 != null){
                 if(by3 == null || by2 == null || by1 == null){
                     faltaParametros = true;
                 }else{
-                    logUtil.getLoggerInfo(by1+", "+by2+", "+by3+" ou "+by4);
-//                    logUtil.getLoggerInfo(by1+", "+by2+", "+by3+" ou "+by4);
+                    LOGGER.info(by1+", "+by2+", "+by3+" ou "+by4);
+//                    LOGGER.info(by1+", "+by2+", "+by3+" ou "+by4);
                     qtdeParametros = 4;
                 }
             }else if(by3 != null){
@@ -96,21 +96,21 @@ public class DriverUtils {
                     faltaParametros = true;
                 }else{
                     
-                    logUtil.getLoggerInfo(by1+", "+by2+" ou "+by3);
+                    LOGGER.info(by1+", "+by2+" ou "+by3);
                     qtdeParametros = 3;
                 }
             }else if(by2 != null){
                 if(by1 == null){
                     faltaParametros = true;
                 }else{
-                    logUtil.getLoggerInfo(by1+" ou "+by2);
+                    LOGGER.info(by1+" ou "+by2);
                     qtdeParametros = 2;
                 }
             }else if(by1 != null){
                 qtdeParametros = 1;
-                logUtil.getLoggerInfo(String.valueOf(by1));
+                LOGGER.info(String.valueOf(by1));
             }
-            logUtil.getLoggerInfo(" ##");
+            System.out.println(" ##");
             if(faltaParametros){
                 throw new IllegalArgumentException("Parametro(s) anteriores não informados.");
             }
@@ -137,12 +137,12 @@ public class DriverUtils {
                      try{
                         Thread.sleep(1000);
                      }catch(InterruptedException ie){
-                         logUtil.getLoggerInfo("## (!)java.lang.InterruptedException(!) Exceção ignorada ##");
+                         LOGGER.info("## (!)java.lang.InterruptedException(!) Exceção ignorada ##");
                      }
                      countLoop++;
                 }while(!encontrado && countLoop <= tentativas);
                 
-                logUtil.getLoggerInfo("## elemento(s)"+(encontrado?"":" não")+" encontrado(s) ##");
+                LOGGER.info("## elemento(s)"+(encontrado?"":" não")+" encontrado(s) ##");
                 
                 return encontrado;                
             }
@@ -165,13 +165,13 @@ public class DriverUtils {
                          }
                      }                     
                 } catch (InterruptedException ie) {
-                    logUtil.getLoggerInfo("## (!)java.lang.InterruptedException(!) Exceção ignorada ##");  
+                    LOGGER.error("## (!)java.lang.InterruptedException(!) Exceção ignorada ##");
                 } catch (NoSuchElementException se){
-                    logUtil.getLoggerInfo("## (!)java.util.NoSuchElementException(!) Exceção ignorada ##");                   
+                    LOGGER.error("## (!)java.util.NoSuchElementException(!) Exceção ignorada ##");
                 }catch (org.openqa.selenium.NoSuchElementException se){
-                    logUtil.getLoggerInfo("## (!)org.openqa.selenium.NoSuchElementException(!) Exceção ignorada ##");                   
+                    LOGGER.error("## (!)org.openqa.selenium.NoSuchElementException(!) Exceção ignorada ##");
                 }catch (StaleElementReferenceException st){
-                    logUtil.getLoggerInfo("## (!)org.openqa.selenium.StaleElementReferenceException(!) Exceção ignorada ##");
+                    LOGGER.error("## (!)org.openqa.selenium.StaleElementReferenceException(!) Exceção ignorada ##");
                 }
             }
         }
@@ -185,13 +185,13 @@ public class DriverUtils {
                      Thread.sleep(50);
                      return searcher.findElement(by).isDisplayed();
                 } catch (InterruptedException ie) {
-                    logUtil.getLoggerInfo("## (!)java.lang.InterruptedException(!) Exceção ignorada ##");  
+                    LOGGER.error("## (!)java.lang.InterruptedException(!) Exceção ignorada ##");
                 } catch (NoSuchElementException se){
-                    logUtil.getLoggerInfo("## (!)java.util.NoSuchElementException(!) Exceção ignorada ##");                   
+                    LOGGER.error("## (!)java.util.NoSuchElementException(!) Exceção ignorada ##");
                 }catch (org.openqa.selenium.NoSuchElementException se){
-                    logUtil.getLoggerInfo("## (!)org.openqa.selenium.NoSuchElementException(!) Exceção ignorada ##");                   
+                    LOGGER.error("## (!)org.openqa.selenium.NoSuchElementException(!) Exceção ignorada ##");
                 }catch (StaleElementReferenceException st){
-                    logUtil.getLoggerInfo("## (!)org.openqa.selenium.StaleElementReferenceException(!) Exceção ignorada ##");
+                    LOGGER.error("## (!)org.openqa.selenium.StaleElementReferenceException(!) Exceção ignorada ##");
                 }
             }
         }
@@ -263,7 +263,7 @@ public class DriverUtils {
     }
     
     public static void pause(WebDriver driver, boolean sair) {
-        logUtil.getLoggerInfo("PAUSE!!!");
+        LOGGER.info("PAUSE!!!");
         JOptionPane.showMessageDialog(null, "PAUSE!!!");        
         if (driver != null) {
             driver.quit();
@@ -297,16 +297,16 @@ public class DriverUtils {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
-                logUtil.getLoggerInfo(ex.toString());
+                LOGGER.info(ex.toString());
             }
-            logUtil.getLoggerInfo("O elemento ta na tela");
+            LOGGER.info("O elemento está na tela");
             count++;
         }
 
         if (count > 60) {
             return false;
         }
-        logUtil.getLoggerInfo("O elemento não ta mais na tela");
+        LOGGER.info("O elemento não está mais na tela");
         return true;
     }
     
