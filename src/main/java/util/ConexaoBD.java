@@ -3,6 +3,8 @@
  */
 package util;
 
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -16,6 +18,7 @@ public class ConexaoBD {
     private static String DBURL = "";
     private static String USER = "";
     private static String SENHA = "";
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ConexaoBD.class);
     
     /**
      * Construtor da classe
@@ -42,16 +45,16 @@ public class ConexaoBD {
             this.connect = DriverManager.getConnection(DBURL, USER, SENHA);
             isConnected = this.connect.isValid(5);
         } catch( SQLException e ) {
-            System.out.println(e.getMessage());
+            LOGGER.error(e.getMessage());
             isConnected = false;
         } catch ( ClassNotFoundException e ) {
-            System.out.println(e.getMessage());
+            LOGGER.error(e.getMessage());
             isConnected = false;
         } catch ( InstantiationException e ) {
-            System.out.println(e.getMessage());
+            LOGGER.error(e.getMessage());
             isConnected = false;
         } catch ( IllegalAccessException e ) {
-            System.out.println(e.getMessage());
+            LOGGER.error(e.getMessage());
             isConnected = false;
         }
         return isConnected;
@@ -70,16 +73,16 @@ public class ConexaoBD {
             this.connect.close();
             isConnected = true;
         } catch( SQLException e ) {
-            System.out.println(e.getMessage());
+            LOGGER.error(e.getMessage());
             isConnected = false;
         } catch ( ClassNotFoundException e ) {
-            System.out.println(e.getMessage());
+            LOGGER.error(e.getMessage());
             isConnected = false;
         } catch ( InstantiationException e ) {
-            System.out.println(e.getMessage());
+            LOGGER.error(e.getMessage());
             isConnected = false;
         } catch ( IllegalAccessException e ) {
-            System.out.println(e.getMessage());
+            LOGGER.error(e.getMessage());
             isConnected = false;
         }       
         return isConnected;
