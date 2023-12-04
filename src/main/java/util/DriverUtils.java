@@ -82,13 +82,11 @@ public class DriverUtils {
                 tentativas = 60;
             }
             LOGGER.info("## Buscando elementos: ");
-//            LOGGER.info("## Buscando elementos: ");
             if(by4 != null){
                 if(by3 == null || by2 == null || by1 == null){
                     faltaParametros = true;
                 }else{
                     LOGGER.info(by1+", "+by2+", "+by3+" ou "+by4);
-//                    LOGGER.info(by1+", "+by2+", "+by3+" ou "+by4);
                     qtdeParametros = 4;
                 }
             }else if(by3 != null){
@@ -110,7 +108,6 @@ public class DriverUtils {
                 qtdeParametros = 1;
                 LOGGER.info(String.valueOf(by1));
             }
-            System.out.println(" ##");
             if(faltaParametros){
                 throw new IllegalArgumentException("Parametro(s) anteriores não informados.");
             }
