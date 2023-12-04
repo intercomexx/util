@@ -134,12 +134,12 @@ public class DriverUtils {
                      try{
                         Thread.sleep(1000);
                      }catch(InterruptedException ie){
-                         LOGGER.info("## (!)java.lang.InterruptedException(!) Exceção ignorada ##");
+                         LOGGER.error("## (!)java.lang.InterruptedException(!) Exceção ignorada ##");
                      }
                      countLoop++;
                 }while(!encontrado && countLoop <= tentativas);
                 
-                LOGGER.info("## elemento(s)"+(encontrado?"":" não")+" encontrado(s) ##");
+                LOGGER.error("## elemento(s)"+(encontrado?"":" não")+" encontrado(s) ##");
                 
                 return encontrado;                
             }
@@ -294,7 +294,7 @@ public class DriverUtils {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
-                LOGGER.info(ex.toString());
+                LOGGER.error(ex.toString());
             }
             LOGGER.info("O elemento está na tela");
             count++;

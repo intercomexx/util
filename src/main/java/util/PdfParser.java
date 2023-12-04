@@ -10,6 +10,7 @@ package util;/*
 import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,8 +18,13 @@ import java.io.IOException;
 
 public class PdfParser {
 	private String enderecoRecurso;
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(PdfParser.class);
+
+    public PdfParser(String diretorioPdf){
+        this.enderecoRecurso = diretorioPdf;
+    }
 	public void setEnderecoRecurso(String enderecoRecurso){
-		this.enderecoRecurso = enderecoRecurso; //endereço dos ficheiros
+		this.enderecoRecurso = enderecoRecurso;
 	}
 	public String getConteudo(){
 		File f = new File(this.enderecoRecurso);
@@ -40,12 +46,12 @@ public class PdfParser {
 			return stripper.getText(pdfDocument);
 		}
 		catch (IOException e){
-			return "ERRO: Não é possível abrir a stream" + e;
+			e.printStackTrace();
+            LOGGER.error(e.getMessage());
+
 		}
-		catch (Throwable e){
+		catch (Exception e){
             e.printStackTrace();
-			// Fazemos um catch, uma vez que precisamos de fechar o recurso
-			return "ERRO: Um erro ocorreu enquanto tentava obter o conteúdo do PDF" + e;
 		}
 		finally{
 			if (pdfDocument != null){
@@ -53,11 +59,13 @@ public class PdfParser {
 					pdfDocument.close();
 				}
 				catch (IOException e){
-					return "ERRO: Não foi possível fechar o PDF." + e;
+                    e.printStackTrace();
+                    LOGGER.error(e.getMessage());
 				}
 			}
 		}
-	}
+        return null;
+    }
 
 
 }

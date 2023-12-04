@@ -3,6 +3,9 @@
  */
 package util;
 
+import org.slf4j.LoggerFactory;
+import util.controller.Controller;
+
 import java.awt.AWTException;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -13,6 +16,8 @@ import java.awt.event.InputEvent;
 /**@author Cristiana  
  */
 public class GetPosicao{
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(GetPosicao.class);
     
     //Recupera a coodernadas(x, y) do mouse
     public static void forMouse(int cont) throws AWTException, InterruptedException{        
@@ -22,8 +27,8 @@ public class GetPosicao{
             int x = (int) b.getX();
             int y = (int) b.getY();
             
-            System.out.println("x: " + x);
-            System.out.println("y: " + y);
+            LOGGER.info("x: " + x);
+            LOGGER.info("y: " + y);
         }
    }
     

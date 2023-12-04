@@ -21,6 +21,7 @@ import javax.imageio.ImageIO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.slf4j.LoggerFactory;
 import util.controller.Controller;
 
 /**
@@ -39,8 +40,8 @@ public class RobotError {
     private String caminhoHtmlErro = "";
     private ConexaoBD conexao;
     private Controller controller;
-    private LogUtil LOGGER = new LogUtil(RobotError.class);
     private int qtdeErros;
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(RobotError.class);
 
     public RobotError() {
     }
@@ -109,10 +110,10 @@ public class RobotError {
     private boolean inicializarConexao() throws InterruptedException {
         this.conexao = new ConexaoBD();
         boolean conectado = this.conexao.connect();
-        LOGGER.getLoggerInfo("Banco conectado: " + conectado);
+        LOGGER.info("Banco conectado: " + conectado);
 
         if (!conectado) {
-            LOGGER.getLoggerInfo("CONEXÃO COM BANCO DE DADOS NÃO FOI ESTABELECIDA! REINICIE O SISTEMA!");
+            LOGGER.info("CONEXÃO COM BANCO DE DADOS NÃO FOI ESTABELECIDA! REINICIE O SISTEMA!");
             return false;
         }
         this.controller = new Controller(this.conexao.getConexao());
@@ -120,14 +121,16 @@ public class RobotError {
     }
 
     public void desconectarBD() {
-        LOGGER.getLoggerInfo("Banco desconectado: " + this.conexao.disconnect());
+        LOGGER.info("Banco desconectado: " + this.conexao.disconnect());
     }
 
     public void criarArqErro(Exception exception) {
         if (exception != null) {
             try {
+
                 String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
                 this.caminhoArquivoErro = this.caminhoRobo + "\\ERRO.txt";
+                LOGGER.info("Criando arquivo de erro .txt em: " + this.caminhoArquivoErro);
                 BufferedWriter arquivo = new BufferedWriter(new FileWriter(this.caminhoArquivoErro));
                 PrintWriter printArq = new PrintWriter(arquivo);
                 printArq.println("========= " + date + " =========");
@@ -137,10 +140,9 @@ public class RobotError {
                     printArq.println(this.textoErroAdicional);
                 }
                 arquivo.close();
-            } catch (NullPointerException e) {
-                LOGGER.getLoggerInfo(e.toString());
-            } catch (IOException io) {
-                LOGGER.getLoggerInfo(io.toString());
+            } catch (NullPointerException | IOException e) {
+                e.printStackTrace();
+                LOGGER.error(e.toString());
             }
         }
     }
@@ -152,6 +154,7 @@ public class RobotError {
                 String dateErro = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss").format(new Date());
                 String caminhoArquivoErro = caminho + "\\ERRO-" + dateErro + ".txt";
                 this.caminhoArquivoErro = caminhoArquivoErro;
+                LOGGER.info("Criando arquivo de erro .txt em: " + this.caminhoArquivoErro);
                 BufferedWriter arquivo = new BufferedWriter(new FileWriter(caminhoArquivoErro));
                 PrintWriter printArq = new PrintWriter(arquivo);
                 printArq.println("========= " + date + " =========");
@@ -162,10 +165,9 @@ public class RobotError {
                 }
                 arquivo.close();
                 return caminhoArquivoErro;
-            } catch (NullPointerException e) {
-                LOGGER.getLoggerInfo(e.toString());
-            } catch (IOException io) {
-                LOGGER.getLoggerInfo(io.toString());
+            } catch (NullPointerException | IOException e) {
+                e.printStackTrace();
+                LOGGER.error(e.toString());
             }
         }
         return null;
@@ -178,7 +180,7 @@ public class RobotError {
                     Date d = new Date();
                     String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(d);
                     this.caminhoHtmlErro = this.caminhoRobo + "\\html.txt";
-                    LOGGER.getLoggerInfo("caminho html: " + this.caminhoHtmlErro);
+                    LOGGER.info("Criando arquivo de erro html .txt em: " + this.caminhoHtmlErro);
                     BufferedWriter arquivo = new BufferedWriter(new FileWriter(this.caminhoHtmlErro));
                     PrintWriter printArq = new PrintWriter(arquivo);
                     printArq.println("========= " + date + " =========");
@@ -186,13 +188,9 @@ public class RobotError {
                     printArq.println(this.driver.findElement(By.xpath("//*")).getAttribute("outerHTML"));
                     arquivo.close();
                 }
-            } catch (NullPointerException e) {
-                LOGGER.getLoggerInfo(e.toString());
-            } catch (IOException io) {
-                LOGGER.getLoggerInfo(io.toString());
-            } catch (WebDriverException we) {
-                LOGGER.getLoggerInfo(we.toString());
-
+            } catch (NullPointerException | IOException | WebDriverException e) {
+                e.printStackTrace();
+                LOGGER.info(e.toString());
             }
         }
     }
@@ -203,7 +201,7 @@ public class RobotError {
                 String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
                 String caminhoArquivoHtml = caminhoHtml + "\\html.txt";
                 this.caminhoHtmlErro = caminhoArquivoHtml;
-                LOGGER.getLoggerInfo("caminho html: " + caminhoArquivoHtml);
+                LOGGER.info("Criando arquivo de erro html .txt em: " + this.caminhoHtmlErro);
                 BufferedWriter arquivo = new BufferedWriter(new FileWriter(caminhoArquivoHtml));
                 PrintWriter printArq = new PrintWriter(arquivo);
                 printArq.println("========= " + date + " =========");
@@ -212,22 +210,22 @@ public class RobotError {
                 arquivo.close();
 
                 return caminhoArquivoHtml;
-            } catch (NullPointerException e) {
-                LOGGER.getLoggerInfo(e.toString());
-            } catch (IOException io) {
-                LOGGER.getLoggerInfo(io.toString());
+            } catch (NullPointerException | IOException e) {
+                e.printStackTrace();
+                LOGGER.info(e.toString());
             }
         }
         return null;
     }
 
     public void salvarImagem() throws AWTException, IOException, InterruptedException {
-        LOGGER.getLoggerInfo("SALVANDO IMAGEM......");
+        LOGGER.info("SALVANDO IMAGEM......");
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         java.awt.Dimension screenSize = toolkit.getScreenSize();
         int width = screenSize.width;
         int height = screenSize.height;
-        LOGGER.getLoggerInfo("Height: " + height);
+        LOGGER.info("Height: " + height);
+        LOGGER.info("Width: " + width);
         Robot robot = new Robot();
 
         BufferedImage img = null;
@@ -235,17 +233,19 @@ public class RobotError {
         //r.x = 85;
         img = robot.createScreenCapture(r);
         this.caminhoPrintErro = this.caminhoRobo + "/print_erro.png";
+        LOGGER.info("Criando print da tela .png em: " + this.caminhoPrintErro);
         ImageIO.write(img, "png", new File(this.caminhoPrintErro));
     }
 
     public String salvarImagem(String caminho) throws AWTException, IOException, InterruptedException {
         String date = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss").format(new Date());
-        LOGGER.getLoggerInfo("SALVANDO IMAGEM DO ERROR...");
+        LOGGER.info("SALVANDO IMAGEM DO ERROR...");
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         java.awt.Dimension screenSize = toolkit.getScreenSize();
         int width = screenSize.width;
         int height = screenSize.height;
-        LOGGER.getLoggerInfo("Height: " + height);
+        LOGGER.info("Height: " + height);
+        LOGGER.info("Width: " + width);
         Robot robot = new Robot();
 
         BufferedImage img = null;
@@ -254,17 +254,18 @@ public class RobotError {
         img = robot.createScreenCapture(r);
         String caminhoArquivoImagem = caminho + "\\" + date + ".png";
         this.caminhoPrintErro = caminhoArquivoImagem;
+        LOGGER.info("Criando print da tela .png em: " + this.caminhoPrintErro);
         ImageIO.write(img, "png", new File(caminhoArquivoImagem));
         return caminhoArquivoImagem;
     }
 
     public List<String> processarEnvioDeErro(Exception e, String caminhoErro, String caminhoPrint, WebDriver driver, String caminhoHtml) throws IOException, InterruptedException, AWTException {
         List<String> listaDeCaminhos = new ArrayList<>();
-        LOGGER.getLoggerInfo("DEU ERRO !!!");
-        List objetos = Arrays.asList(e, caminhoErro, caminhoPrint, driver, caminhoHtml);
+        LOGGER.info("DEU ERRO !!!");
+        List<Object> objetos = Arrays.asList(e, caminhoErro, caminhoPrint, driver, caminhoHtml);
         objetos.forEach(o -> {
             if (o == null){
-                LOGGER.getLoggerInfo("ERRO NO METODO processarEnvioDeErro()");
+                LOGGER.info("ERRO NO METODO processarEnvioDeErro()");
             }
         });
         if (caminhoPrint != null) {
@@ -291,10 +292,10 @@ public class RobotError {
 
     public void processarEnvioDeErro(String caminhoPrint, WebDriver driver, String caminhoHtml) throws IOException, InterruptedException, AWTException {
         System.err.println("DEU ERRO !!!");
-        List objetos = Arrays.asList(caminhoPrint, driver, caminhoHtml);
+        List<Object> objetos = Arrays.asList(caminhoPrint, driver, caminhoHtml);
         objetos.forEach(o -> {
             if (o == null){
-                LOGGER.getLoggerInfo("ERRO NO METODO processarEnvioDeErro()");
+                LOGGER.info("ERRO NO METODO processarEnvioDeErro()");
             }
         });
         if (caminhoPrint != null) {
@@ -307,17 +308,14 @@ public class RobotError {
 
     public void deletaArquivos(String diretorio) {
         File diretorioNovo = new File(diretorio);
-        LOGGER.getLoggerInfo("Deletando aquivos do caminho " + diretorio);
+        LOGGER.info("Deletando aquivos do caminho " + diretorio);
         Arrays.stream(Objects.requireNonNull(diretorioNovo.listFiles())).forEach(File::delete);
     }
 
     private void processarEnviarErro(boolean limpaCache) throws AWTException, IOException, InterruptedException {
-        LOGGER.getLoggerInfo("DEU ERRO!!!");
+        LOGGER.info("DEU ERRO!!!");
         this.exception.printStackTrace();
-
         salvarImagem();
-
-        LOGGER.getLoggerInfo("In");
         if (this.driver != null) {
             criarArqHtml();
 

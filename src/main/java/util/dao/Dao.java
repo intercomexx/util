@@ -4,6 +4,8 @@ package util.dao;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import org.slf4j.LoggerFactory;
+
 import java.sql.Blob;
 import java.io.File;
 import java.io.ByteArrayOutputStream;
@@ -21,13 +23,15 @@ public class Dao {
 
     public Connection conexao;
 
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Dao.class);
+
     public Dao(Connection c) {
         this.conexao = c;
     }
 
     public int enviarMensagemErroResult(String nomeRobo, String tipoRobo, String caminhoArqErro, String caminhoImg, String caminhoHTML) {
         String procedureQuery = "{call ENVIA_MSG_ERRO_" + nomeRobo.toUpperCase() + "(" + (tipoRobo != null ? "?, " : "") + "?, ?, ?)}";
-        System.out.println(procedureQuery);
+        LOGGER.info(procedureQuery);
         Blob arqErroBlob = null;
         Blob imgBlob = null;
         Blob htmlBlob = null;
@@ -35,15 +39,15 @@ public class Dao {
 
             if (caminhoArqErro != null) {
                 arqErroBlob = converterPdfBlob(caminhoArqErro);
-                System.out.println("Tamanaho do Blob: " + (arqErroBlob.length()));
+                LOGGER.info("Tamanaho do Blob: " + (arqErroBlob.length()));
             }
             if (caminhoImg != null) {
                 imgBlob = converterPdfBlob(caminhoImg);
-                System.out.println("Tamanaho do imgBlob: " + (imgBlob.length()));
+                LOGGER.info("Tamanaho do imgBlob: " + (imgBlob.length()));
             }
             if (caminhoHTML != null) {
                 htmlBlob = converterPdfBlob(caminhoHTML);
-                System.out.println("Tamanaho do htmlBlob: " + (htmlBlob.length()));
+                LOGGER.info("Tamanaho do htmlBlob: " + (htmlBlob.length()));
             }
 
             CallableStatement callableSt = conexao.prepareCall(procedureQuery);

@@ -12,12 +12,15 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Sisco
  */
 public class PageUtils {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(PageUtils.class);
     
     public static boolean loopExisteTexto(String texto1){
         return loopExisteTexto(texto1,null, null);
@@ -76,12 +79,12 @@ public class PageUtils {
                 try{
                     Thread.sleep(500);
                 }catch(InterruptedException e){
-                    System.out.println(e.toString());
+                    LOGGER.info(e.toString());
                 }
                 
             } 
         }while(!encontrado && countTentativas<=tentativas);//5
-        System.out.println("## texto(s)"+(encontrado?"":" não")+" encontrado(s) ##");
+        LOGGER.info("## texto(s)"+(encontrado?"":" não")+" encontrado(s) ##");
         
         return encontrado;
     }
@@ -100,13 +103,13 @@ public class PageUtils {
                 areaCopiada = (String)Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
                 return areaCopiada.contains(texto);
             }catch(UnsupportedFlavorException e){
-                System.out.println(e.toString());
+                LOGGER.error(e.toString());
             }catch(IOException e){
-                System.out.println(e.toString());
+                LOGGER.error(e.toString());
             }catch(InterruptedException e){
-                System.out.println(e.toString());
+                LOGGER.error(e.toString());
             }catch(AWTException e){
-                System.out.println(e.toString());
+                LOGGER.error(e.toString());
             }
         }        
         return false;

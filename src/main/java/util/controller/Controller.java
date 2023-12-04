@@ -4,6 +4,7 @@
  */
 package util.controller;
 
+import org.slf4j.LoggerFactory;
 import util.dao.Dao;
 import java.io.File;
 import java.io.IOException;
@@ -27,13 +28,14 @@ public class Controller {
     private String anoProcesso;
     private ResultSet result;
     private Dao dao;
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Controller.class);
 
     public Controller(Connection connect) {
         dao = new Dao(connect);
     }
 
     public boolean enviarMensagemErroResult(String nomeRobo, String tipoRobo, String caminhoArqErro, String caminhoImg, String caminhoHTML) {
-        System.out.println("Chamou a função do Controlador enviarMensagemErroResult()");
+        LOGGER.info("Chamou a função do Controlador enviarMensagemErroResult()");
         return dao.enviarMensagemErroResult(nomeRobo, tipoRobo, caminhoArqErro, caminhoImg, caminhoHTML) == 1;
     }
 }
