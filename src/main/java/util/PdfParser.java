@@ -23,6 +23,8 @@ public class PdfParser {
     public PdfParser(String diretorioPdf){
         this.enderecoRecurso = diretorioPdf;
     }
+    public PdfParser(){
+    }
 	public void setEnderecoRecurso(String enderecoRecurso){
 		this.enderecoRecurso = enderecoRecurso;
 	}
