@@ -28,10 +28,8 @@ import org.slf4j.LoggerFactory;
 public class DriverUtils {
     private static WebDriver driver;
     private static final Logger LOGGER = LoggerFactory.getLogger(DriverUtils.class);
-    private static LogUtil logUtil = new LogUtil(DriverUtils.class);
 
     private DriverUtils(){
-        LogUtil logUtil = new LogUtil(DriverUtils.class);
     }
 
     public static WebDriver configuraChrome() throws InterruptedException {
@@ -111,9 +109,7 @@ public class DriverUtils {
             if(faltaParametros){
                 throw new IllegalArgumentException("Parametro(s) anteriores não informados.");
             }
-            
             if(qtdeParametros > 0){
-                
                 boolean encontrado = false;
                 int countLoop = 0;
                 do{
@@ -139,7 +135,7 @@ public class DriverUtils {
                      countLoop++;
                 }while(!encontrado && countLoop <= tentativas);
                 
-                LOGGER.error("## elemento(s)"+(encontrado?"":" não")+" encontrado(s) ##");
+                LOGGER.info("## elemento(s)"+(encontrado?"":" não")+" encontrado(s) ##");
                 
                 return encontrado;                
             }

@@ -20,12 +20,7 @@ public class ConexaoBD {
     private static String SENHA = "";
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ConexaoBD.class);
     
-    /**
-     * Construtor da classe
-     * @param host Host em que se deseja conectar
-     * @param user Nome do usuário
-     * @param pass Senha do usuário
-     */
+
     public ConexaoBD(){
         this.DRIVER = "oracle.jdbc.driver.OracleDriver";
         this.DBURL = "jdbc:oracle:thin:@intercomex.maxapex.net:1521:XE";
