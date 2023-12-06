@@ -87,7 +87,7 @@
 
     <name>UtilitarioInterComex</name>
     <description>Biblioteca de conexao com banco de dados, Dialog, conversão, metodos para usar com Selenium</description>
-    <url>https://github.com/intercomexx/util</url>
+    <url>https://gitlab.com/intercomex/util</url>
     <licenses>
         <license>
             <name>MIT License</name>
