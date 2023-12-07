@@ -38,6 +38,7 @@ public class DriverUtils {
         String userProfile = System.getProperty("user.home") + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default";
         options.addArguments("user-data-dir=" + userProfile);
         options.addArguments("--start-maximized");
+        options.addArguments("--ignore-certificate-errors");
         driver = new ChromeDriver(options);
         return driver;
     }

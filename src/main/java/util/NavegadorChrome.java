@@ -1,6 +1,3 @@
-/*
- * Classe que inicializa o navegador Chrome.
- */
 package util;
 
 import org.openqa.selenium.WebDriver;
@@ -15,7 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public class NavegadorChrome {
     private static WebDriver driver;
-    private static String driverVersao = "chromedriver108.exe";
+    private static String driverVersao = "chromedriver.exe";
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(NavegadorChrome.class);
     public static WebDriver Inicializar(String caminhoDriver){    
         System.setProperty("webdriver.chrome.driver", caminhoDriver + "\\chromedriver_win32\\" + driverVersao);
@@ -24,6 +21,7 @@ public class NavegadorChrome {
         String userProfile = System.getProperty("user.home") + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default";
         options.addArguments("user-data-dir=" + userProfile);
         options.addArguments("--start-maximized");
+        options.addArguments("--ignore-certificate-errors");
         options.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
         driver = new ChromeDriver(options);
         return driver;
