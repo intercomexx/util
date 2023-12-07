@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.intercomexx</groupId>
+    <groupId>io.gitlab.intercomex</groupId>
     <artifactId>util</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <build>
@@ -31,13 +31,14 @@
         </plugins>
     </build>
 
+
     <name>UtilitarioInterComex</name>
-    <description>Biblioteca de conexao com banco de dados, Dialog, conversão, metodos para usar com Selenium.</description>
+    <description>Biblioteca de conexao com banco de dados, Dialog, conversão, metodos para usar com Selenium</description>
     <url>https://gitlab.com/intercomex/util</url>
     <licenses>
         <license>
-            <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
         </license>
     </licenses>
 
@@ -102,17 +103,12 @@
         </repository>
     </distributionManagement>
 
-   <!-- <scm>
+    <scm>
         <connection>scm:git:git://gitlab.com/intercomex/util.git</connection>
         <developerConnection>scm:git:ssh:/gitlab.com/intercomex/util.git</developerConnection>
         <url>https://gitlab.com/intercomex/util</url>
     </scm>
--->
-    <scm>
-        <connection>scm:git:git://github.com/intercomexx/util.git</connection>
-        <developerConnection>scm:git:ssh://github.com/intercomexx/util.git</developerConnection>
-        <url>http://github.com/intercomexx/util</url>
-    </scm>
+
 
 
     <developers>
